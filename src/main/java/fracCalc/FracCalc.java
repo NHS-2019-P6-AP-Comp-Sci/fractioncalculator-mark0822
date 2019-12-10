@@ -16,6 +16,7 @@ public class FracCalc {
 		System.out.println("Type Your Equation Here");
 		String original = userInput.nextLine();
 		return original;
+		
 
 	}
 
@@ -34,15 +35,16 @@ public class FracCalc {
 // TODO: Implement this function to produce the solution to the input
 	
 		String right = "";
-
+		String left = "";
 // separate left and right
 		int space = input.indexOf(" ");
 		if (Character.isWhitespace(input.charAt(space + 2))) {
 			String operator = Character.toString(input.charAt(space + 1));
-			String left = input.substring(0, space);
+			left = input.substring(0, space);
 			right = input.substring(space + 3, input.length());
 			
 		}
 		return (right);
 	}
 }
+
