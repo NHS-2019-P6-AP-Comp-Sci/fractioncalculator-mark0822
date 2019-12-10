@@ -10,8 +10,19 @@ public class FracCalc {
 	}
 // TODO: Read the input from the user and call produceAnswer with an equation
 
+//Simplify the fraction
+	public static int simplify(int numerator, int denominator) {
+		int num = Math.abs(numerator);
+		int denom = Math.abs(denominator);
+		while (num != denom) {
+			if (num > denom)
+				num = num - denom;
+			else
+				denom = denom - num;
+		}
+		return Math.min(num, denom);
+	}
 
-	
 //UserInput
 	public static String userInput() {
 		Scanner userInput = new Scanner(System.in);
@@ -61,14 +72,15 @@ public class FracCalc {
 				if (left.indexOf("_") != -1) {
 					leftNum = Integer.parseInt(left.substring(0, left.indexOf("_")));
 					leftdenominator = Integer.parseInt(left.substring(leftDivide + 1, left.length()));
-					leftnumerator = Integer.parseInt(left.substring(left.indexOf("_") + 1, leftDivide));
+					leftnumerator = Integer.parseInt(left.substring(left.indexOf("_") + 1, leftDivide))
+							+ Math.abs(leftNum) * leftdenominator;
 					if (String.valueOf(leftNum).contains("-")) {
-					leftnumerator = Integer.parseInt("-" + leftnumerator);
+						leftnumerator = Integer.parseInt("-" + leftnumerator);
 					}
-					} else {
+				} else {
 					leftnumerator = Integer.parseInt(left.substring(0, leftDivide));
 					leftdenominator = Integer.parseInt(left.substring(leftDivide + 1, left.length()));
-					}
+				}
 			} else {
 				leftnumerator = Integer.parseInt(left);
 				leftdenominator = 1;
@@ -84,23 +96,88 @@ public class FracCalc {
 				if (right.indexOf("_") != -1) {
 					rightNum = Integer.parseInt(right.substring(0, right.indexOf("_")));
 					rightdenominator = Integer.parseInt(right.substring(rightDivide + 1, right.length()));
-					rightnumerator = Integer.parseInt(right.substring(right.indexOf("_") + 1, rightDivide));
+					rightnumerator = Integer.parseInt(right.substring(right.indexOf("_") + 1, rightDivide))
+							+ Math.abs(rightNum) * rightdenominator;
 					if (String.valueOf(rightNum).contains("-")) {
-					rightnumerator = Integer.parseInt("-" + rightnumerator);
+						rightnumerator = Integer.parseInt("-" + rightnumerator);
 					}
-					} else {
+				} else {
 					rightnumerator = Integer.parseInt(right.substring(0, rightDivide));
 					rightdenominator = Integer.parseInt(right.substring(rightDivide + 1, right.length()));
-					}
+				}
 			} else {
-				rightNum = Integer.parseInt(right);
-				rightnumerator = 0;
+				rightnumerator = Integer.parseInt(right);
 				rightdenominator = 1;
 			}
-			
+
+// check if denominator is zero
+			if (rightdenominator == 0 || leftdenominator == 0) {
+				System.out.println("ERROR: Cannot divide by zero.");
+				System.exit(0);
+			}
+
+// operators
+			if (operator.contains("+")) {
+				numerator = leftnumerator * rightdenominator + rightnumerator * leftdenominator;
+				denominator = leftdenominator * rightdenominator;
+			}
+			if (operator.contains("-")) {
+				numerator = leftnumerator * rightdenominator - rightnumerator * leftdenominator;
+				denominator = leftdenominator * rightdenominator;
+			}
+			if (operator.contains("*")) {
+				numerator = leftnumerator * rightnumerator;
+				denominator = leftdenominator * rightdenominator;
+			}
+			if (operator.contains("/")) {
+				numerator = leftnumerator * rightdenominator;
+				denominator = rightnumerator * leftdenominator;
+			}
+
+// simplify
+			if (numerator != 0 && denominator != 0) {
+				gcd = simplify(numerator, denominator);
+				System.out.println(gcd);
+				numerator = numerator / gcd;
+				denominator = denominator / gcd;
+				System.out.println(numerator);
+				System.out.println(denominator);
+			}
+// output
+			finalNum = numerator / denominator;
+			finalNumerator = Math.abs(numerator % denominator);
+
+			if (finalNum != 0) {
+				if (finalNumerator != 0) {
+					if (denominator != 1) {
+						answer = finalNum + "_" + finalNumerator + "/" + Math.abs(denominator);
+					} else {
+						answer = finalNum + "_" + finalNumerator;
+					}
+				} else {
+					answer = Integer.toString(finalNum);
+				}
+
+			} else {
+				if (denominator != 1) {
+					answer = numerator + "/" + Math.abs(denominator);
+				} else {
+					answer = Integer.toString(numerator);
+				}
+			}
+
+			if (numerator == 0) {
+
+				answer = Integer.toString(0);
+			}
+		} else {
+			System.out.println("ERROR: Input is in an invalid format.");
+			System.exit(0);
 		}
-		answer = "whole:" + rightNum + " numerator:" +rightnumerator + " denominator:" + rightdenominator;
+
 		System.out.println(answer);
+
 		return answer;
 	}
+
 }
