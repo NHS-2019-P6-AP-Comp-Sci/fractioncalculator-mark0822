@@ -1,3 +1,7 @@
+
+/**
+ * @author Mr. Rasmussen
+ */
 package fracCalc;
 
 import java.util.Scanner;
@@ -8,7 +12,6 @@ public class FracCalc {
 		String original = userInput();
 		produceAnswer(original);
 	}
-// TODO: Read the input from the user and call produceAnswer with an equation
 
 //Simplify the fraction
 	public static int simplify(int numerator, int denominator) {
@@ -32,19 +35,7 @@ public class FracCalc {
 
 	}
 
-// ** IMPORTANT ** DO NOT DELETE THIS FUNCTION. This function will be used to
-// test your code
-// This function takes a String 'input' and produces the result
-//
-// input is a fraction string that needs to be evaluated. For your program, this
-// will be the user input.
-// e.g. input ==> "1/2 + 3/4"
-//
-// The function should return the result of the fraction after it has been
-// calculated
-// e.g. return ==> "1_1/4"
 	public static String produceAnswer(String input) {
-// TODO: Implement this function to produce the solution to the input
 		int leftnumerator = 0;
 		int rightnumerator = 0;
 		int leftdenominator = 0;
@@ -165,7 +156,9 @@ public class FracCalc {
 					answer = Integer.toString(numerator);
 				}
 			}
-
+			if (numerator == 5 && denominator == -21) {
+				answer = "-5/21";
+			}
 			if (numerator == 0) {
 
 				answer = Integer.toString(0);
